@@ -1,3 +1,1 @@
-# Rappy-backend
-
 # backend-Rappy
