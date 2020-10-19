@@ -1,10 +1,30 @@
 import { Request, Response } from "express";
+import { request } from "http";
 import { getRepository } from 'typeorm';
 import Orphanage from '../models/Orphanage';
 
 
 export default {
-    async create(request: { body: { name: any; latitude: any; longitude: any; about: any; instructions: any; opening_hours: any; open_on_weekends: any; }; }, response: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: Orphanage): any; new(): any; }; }; }) {
+
+    async index(request: Request, response: Response) {
+        const orphanagesRepository = getRepository(Orphanage);
+ 
+        const orphanages = await orphanagesRepository.find();
+
+        return response.json(orphanages);
+    },
+
+    async show(request: Request, response: Response) {
+        const { id } = request.params;
+        
+        const orphanagesRepository = getRepository(Orphanage);
+
+        const orphanage = await orphanagesRepository.findOneOrFail(id);
+
+        return response.json(orphanage);
+    },
+
+    async create(request: Request, response: Response) {
         const {
             name,
             latitude,
